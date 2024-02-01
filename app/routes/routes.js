@@ -1,6 +1,7 @@
 const express = require('express')
 const { jwt_valid_token, jwt_get_token } = require('../middleware/jwt.js');
 const { sendRequest, trackLabel, createLabel, cancelLabel } = require('../controller/requests.js');
+const { createInvoice } = require('../controller/facturas.js');
 
 const router = express.Router()
 
@@ -61,7 +62,6 @@ router.get('/anular_guia', async (req, res) => {
     
     const data = req.body
     const response = await cancelLabel(data);
-    // res.status(response.error ? 500 : 200)
     res.json(response)
 })
 
@@ -82,12 +82,27 @@ router.get('/crear_guia', async (req, res) => {
 })
 
 
-router.get('/', (req, res) => {
-    res.send('Birds home page')
+router.get('/crear_guia', async (req, res) => {
+    const data = req.body
+    const response = await createLabel(data);
+    res.status(response.error ? 500 : 200)
+        .json(response)
 })
-// define the about route
+
+
+router.get('/crear_invoice', async (req, res) => {
+    const data = req.body
+    const response = await createInvoice(data);
+    res.status(response.error ? 500 : 200)
+        .json(response)
+})
+
+
+router.get('/', (req, res) => {
+    res.send('');
+})
 router.get('/about', (req, res) => {
-    res.send('About birds')
+    res.send('')
 })
 
 module.exports = router
