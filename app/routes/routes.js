@@ -81,21 +81,13 @@ router.get('/crear_guia', async (req, res) => {
     .json(response)
 })
 
-
-router.get('/crear_guia', async (req, res) => {
-    const data = req.body
-    const response = await createLabel(data);
-    res.status(response.error ? 500 : 200)
-        .json(response)
-})
-
-
 router.get('/crear_invoice', async (req, res) => {
     const data = req.body
     const response = await createInvoice(data);
     res.status(response.error ? 500 : 200)
         .json(response)
 })
+
 
 
 router.get('/', (req, res) => {
