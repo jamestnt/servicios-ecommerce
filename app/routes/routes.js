@@ -1,7 +1,7 @@
 const express = require('express')
 const { jwt_valid_token, jwt_get_token } = require('../middleware/jwt.js');
 const { sendRequest, trackLabel, createLabel, cancelLabel } = require('../controller/requests.js');
-const { createInvoice } = require('../controller/facturas.js');
+const { createInvoice, getNit } = require('../controller/facturas.js');
 
 const router = express.Router()
 
@@ -88,6 +88,20 @@ router.get('/crear_invoice', async (req, res) => {
         .json(response)
 })
 
+router.get('/cancelar_invoice', async (req, res) => {
+    const data = req.body
+    const response = await cancelInvoice(data);
+    res.status(response.error ? 500 : 200)
+        .json(response)
+})
+
+router.get('/nit', async (req, res) => {
+
+    const data = req.body
+    const response = await getNit(data);
+    res.status(response.error ? 500 : 200)
+        .json(response)
+})
 
 
 router.get('/', (req, res) => {
