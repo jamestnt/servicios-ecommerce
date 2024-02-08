@@ -36,6 +36,22 @@ const getToken = async () => {
 const formatData = async (order) => {
     const fs = require('fs').promises;
     const path = require('path');
+    const fechaActual = new Date();
+
+    const año = fechaActual.getFullYear();
+    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
+    const dia = String(fechaActual.getDate()).padStart(2, '0');
+    const hora = String(fechaActual.getHours()).padStart(2, '0');
+    const minuto = String(fechaActual.getMinutes()).padStart(2, '0');
+    const segundo = String(fechaActual.getSeconds()).padStart(2, '0');
+    const milisegundo = String(fechaActual.getMilliseconds()).padStart(3, '0');
+
+    const zonaHoraria = fechaActual.getTimezoneOffset();
+    const signo = zonaHoraria > 0 ? '-' : '+';
+    const offsetHoras = String(Math.abs(Math.floor(zonaHoraria / 60))).padStart(2, '0');
+    const offsetMinutos = String(Math.abs(zonaHoraria % 60)).padStart(2, '0');
+
+    order['Fecha'] = `${año}-${mes}-${dia}T${hora}:${minuto}:${segundo}.${milisegundo}${signo}${offsetHoras}:${offsetMinutos}`;
     try {
         if (typeof order.accion == "undefined") {
             return {
@@ -157,6 +173,34 @@ const sendRequest = async (data, orderId, URL) => {
     }
 }
 
+const getNit = async (nit) => {
+    const token = await getToken()
+
+    const axios = require('axios');
+    let data = JSON.stringify({
+        "Nit": "81599595"
+    });
+
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: process.env.ENDPOINTFAC+'ConsultarNit',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token.token,
+        },
+        data: nit
+    };
+
+    try {
+        res = await axios.request(config)
+        return res.data
+    } catch (error) {
+        return error
+    }
+
+}
+
 String.prototype.Add = function (key, data) {
     key = "{{" + key + "}}";
     return this.replace(new RegExp(key, 'g'), data);
@@ -165,4 +209,4 @@ String.prototype.Add = function (key, data) {
 String.prototype.toCapitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
-module.exports = { createInvoice }
+module.exports = { createInvoice, getNit }
