@@ -1,7 +1,9 @@
 const { generarLauValue } = require('../controller/encrypt.js');
 const empresas = require('./labelJson.js');
+const { formatData, formatPDF, convertirHTMLaPDF} = require('./functions.js');
 const axios = require('axios');
 const qs = require('qs');
+const puppeteer = require('puppeteer');
 
 const getToken = async () => {
     let data = qs.stringify({
@@ -9,7 +11,7 @@ const getToken = async () => {
         'password': process.env.PASSWORDFAC,
         'grant_type': 'password'
     });
-
+    console.log(data);
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -33,70 +35,58 @@ const getToken = async () => {
     }
 }
 
-const formatData = async (order) => {
-    const fs = require('fs').promises;
+const getPDF = async (orderData) => {
     const path = require('path');
-    const fechaActual = new Date();
+    const fs = require('fs');
 
-    const año = fechaActual.getFullYear();
-    const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
-    const dia = String(fechaActual.getDate()).padStart(2, '0');
-    const hora = String(fechaActual.getHours()).padStart(2, '0');
-    const minuto = String(fechaActual.getMinutes()).padStart(2, '0');
-    const segundo = String(fechaActual.getSeconds()).padStart(2, '0');
-    const milisegundo = String(fechaActual.getMilliseconds()).padStart(3, '0');
-
-    const zonaHoraria = fechaActual.getTimezoneOffset();
-    const signo = zonaHoraria > 0 ? '-' : '+';
-    const offsetHoras = String(Math.abs(Math.floor(zonaHoraria / 60))).padStart(2, '0');
-    const offsetMinutos = String(Math.abs(zonaHoraria % 60)).padStart(2, '0');
-
-    order['Fecha'] = `${año}-${mes}-${dia}T${hora}:${minuto}:${segundo}.${milisegundo}${signo}${offsetHoras}:${offsetMinutos}`;
+    var htmlContent = await fs.promises.readFile(path.join(__dirname, '../assets/templatecmw.html'), 'utf-8');
+    
+    htmlContent = await formatPDF(orderData, htmlContent)
+    // console.log(htmlContent);
     try {
-        if (typeof order.accion == "undefined") {
-            return {
-                data: "",
-                error: "invalid action"
-            };
-        }
-        if (order.accion == "new") {
-            allField = typeof order.nit != "undefined" && typeof order.nombreNit != "undefined" && typeof order.direccion != "undefined" && typeof order.municipio != "undefined" && typeof order.departamento != "undefined" && typeof order.items != "undefined" && typeof order.totalImpuesto != "undefined" && typeof order.total != "undefined"
-            if (!allField) {
-                return {
-                    data: "",
-                    error: "invalid fields"
-                };
-            }
-            data = await fs.readFile(path.join(__dirname, './FormatosFacturas/genFac.xml'), 'utf-8');
-            const formatoItems = await fs.readFile(path.join(__dirname, './FormatosFacturas/items.xml'), 'utf-8');
-
-            order.items = await formatItems(order.items, formatoItems)
-
-        } else {
-            allField = typeof order.Doc && typeof order.Nit && typeof order.FechaEmision && typeof order.Fecha
-            if (!allField) {
-                return {
-                    data: "",
-                    error: "invalid fields"
-                };
-            }
-            data = await fs.readFile(path.join(__dirname, './FormatosFacturas/anuFac.xml'), 'utf-8');
-        }
-        Object.keys(order).map(function (item, i) {
-            data = data.Add(item.toCapitalize(), order[item]);
-        });
+        const pdfBuffer = await convertirHTMLaPDF(htmlContent.data);
+        // const pdfPath = path.join(__dirname, 'archivo.pdf');
+        // fs.writeFileSync(pdfPath, pdfBuffer);
         return {
-            data: Buffer.from(data,'utf-8').toString('base64'),
-            error: false
+            pdf: pdfBuffer,
+            error: false,
         };
     } catch (error) {
-        if (!allField) {
-            return {
-                data: "",
-                error: ('Error al leer el formato:' + error)
-            };
+
+        return {
+            file: "",
+            error: 'Error al generar PDF:' + error
         }
     }
+}
+
+
+const getNit = async (nit) => {
+    const token = await getToken()
+
+    const axios = require('axios');
+    let data = JSON.stringify({
+        "Nit": "81599595"
+    });
+
+    let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: process.env.ENDPOINTFAC + 'ConsultarNit',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token.token,
+        },
+        data: nit
+    };
+
+    try {
+        res = await axios.request(config)
+        return res.data
+    } catch (error) {
+        return error
+    }
+
 }
 
 const createInvoice = async (order) => {
@@ -119,39 +109,13 @@ const createInvoice = async (order) => {
 }
 
 
-const formatItems = async (items, formato) => {
-
-    res = [];
-    for (let i = 0; i < items.length; i++) {
-        let format = formato
-        Object.keys(items[i]).map(function (item, index) {
-            try {
-                val = Number(items[i][item]).toFixed(6).toString()
-                console.log(item.toCapitalize());
-                if ("Cantidad" == item.toCapitalize()){
-                    val = Number(items[i][item]).toFixed(4).toString()
-                }
-                if (val == "NaN" || "Indice" == item.toCapitalize()){
-                    format = format.Add(item.toCapitalize(), items[i][item].toString());   
-                }else{
-                    format = format.Add(item.toCapitalize(), val);
-                }
-                
-            } catch (error) {
-                format = format.Add(item.toCapitalize(), items[i][item].toString());   
-            }
-        });
-        res=res+format
-    }
-    return res;
-}
 const sendRequest = async (data, orderId, URL) => {
     const token = await getToken()
     content = {
         "xmlDte": data.data,
     }
-    if(orderId){
-        content.Referencia= orderId
+    if (orderId) {
+        content.Referencia = orderId
     }
     let config = {
         method: 'post',
@@ -167,46 +131,10 @@ const sendRequest = async (data, orderId, URL) => {
     try {
         res = await axios.request(config)
         return [data.data,
-    res.data]
+        res.data]
     } catch (error) {
         return error
     }
 }
 
-const getNit = async (nit) => {
-    const token = await getToken()
-
-    const axios = require('axios');
-    let data = JSON.stringify({
-        "Nit": "81599595"
-    });
-
-    let config = {
-        method: 'post',
-        maxBodyLength: Infinity,
-        url: process.env.ENDPOINTFAC+'ConsultarNit',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token.token,
-        },
-        data: nit
-    };
-
-    try {
-        res = await axios.request(config)
-        return res.data
-    } catch (error) {
-        return error
-    }
-
-}
-
-String.prototype.Add = function (key, data) {
-    key = "{{" + key + "}}";
-    return this.replace(new RegExp(key, 'g'), data);
-};
-
-String.prototype.toCapitalize = function () {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-};
-module.exports = { createInvoice, getNit }
+module.exports = { createInvoice, getNit, getPDF }

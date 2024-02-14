@@ -1,8 +1,8 @@
 const express = require('express')
 const { jwt_valid_token, jwt_get_token } = require('../middleware/jwt.js');
 const { sendRequest, trackLabel, createLabel, cancelLabel } = require('../controller/requests.js');
-const { createInvoice, getNit } = require('../controller/facturas.js');
-
+const { createInvoice, getNit, getPDF } = require('../controller/facturas.js');
+const puppeteer = require('puppeteer');
 const router = express.Router()
 
 router.use((req, res, next) => {
@@ -103,12 +103,17 @@ router.get('/nit', async (req, res) => {
         .json(response)
 })
 
+router.post('/pdf', async (req, res) => {
+    const data = req.body
+    const pdf = await getPDF(data);
+    console.log(data.Items);
+    if (!pdf.error){
+        res.send(Buffer.from(pdf.pdf, 'binary').toString('base64'));
+        // res.send(pdf.pdf);
+    }else{
+        res.status(500).send(pdf.error);
+    }
+})
 
-router.get('/', (req, res) => {
-    res.send('');
-})
-router.get('/about', (req, res) => {
-    res.send('')
-})
 
 module.exports = router
