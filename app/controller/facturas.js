@@ -11,7 +11,7 @@ const getToken = async () => {
         'password': process.env.PASSWORDFAC,
         'grant_type': 'password'
     });
-    console.log(data);
+    
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -42,7 +42,6 @@ const getPDF = async (orderData) => {
     var htmlContent = await fs.promises.readFile(path.join(__dirname, '../assets/templatecmw.html'), 'utf-8');
     
     htmlContent = await formatPDF(orderData, htmlContent)
-    // console.log(htmlContent);
     try {
         const pdfBuffer = await convertirHTMLaPDF(htmlContent.data);
         // const pdfPath = path.join(__dirname, 'archivo.pdf');
@@ -105,6 +104,8 @@ const createInvoice = async (order) => {
         data = await sendRequest(data, order.id, url);
         error = false
     }
+    console.log(data);
+    console.log(data[1].Errores);
     return { data, error: error }
 }
 
@@ -127,7 +128,6 @@ const sendRequest = async (data, orderId, URL) => {
         },
         data: JSON.stringify(content)
     };
-    console.log(content);
     try {
         res = await axios.request(config)
         return [data.data,
