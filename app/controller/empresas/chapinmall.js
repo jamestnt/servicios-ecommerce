@@ -14,7 +14,7 @@ var chapinmall = {
             "city": "Guatemala"
         },
         "from_address": {
-            "name": "Chapin Mall",
+            "name": "Importadora CMW",
             "phone": "48551704",
             "email": "admin@chapinmall.com",
             "HeaderCodeTownship": "0103",
@@ -37,7 +37,7 @@ var chapinmall = {
         "Ticket_Number": "4575154",
         "Order_Number": 4575154,
         "IdCountry": "GT",
-        "CodeOfReference": "224160",
+        "CodeOfReference": "528201",
         "CountPieces": 1,
         "TotalWeight": "1",
         "TotalValue": "100.00",
@@ -47,16 +47,16 @@ var chapinmall = {
         "Collected": false,
         "COD": {
             "CashOnDelivery": false,
-            "CreditNumber": "140266",
+            "CreditNumber": "528201",
             "AmmountCashOnDelivery": 0,
             "CashOnDeliveryCurrency": "GTQ",
-            "BankAccountName": "Chapin mall",
+            "BankAccountName": "IMPORTADORA CMW",
             "BankId": 33,
             "BankAccountType": "Monetaria",
-            "BankAccountId": "002-0136727",
-            "Identification": "3689257570101"
+            "BankAccountId": "030-0110350",
+            "Identification": "2662916511501"
         },
-        "BillAccountNumber": "92469078",
+        "BillAccountNumber": "119244225",
         "PaymentMethod": "Qpay",
         "Note": ""
     }
