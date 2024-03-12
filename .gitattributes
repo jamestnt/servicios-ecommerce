@@ -1,0 +1,2 @@
+app/core filter=lfs diff=lfs merge=lfs -text
+app/node_modules/html-pdf-node/node_modules/puppeteer/.local-chromium/linux-901912/chrome-linux/chrome filter=lfs diff=lfs merge=lfs -text
