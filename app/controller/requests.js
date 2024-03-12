@@ -60,6 +60,34 @@ const cancelLabel = async (order) => {
     // return label;
     return sendRequest(label);
 }
+const getStatusLabel = async (order) => {
+    if (!order.empresa) {
+        return {
+            response: "empresa es un campo requerido",
+            error: true
+        }
+    }
+    if (!order.guia) {
+        return {
+            response: "Guia es un campo requerido",
+            error: true
+        }
+    }
+    let LabelData = empresas[order.empresa];
+    var arr = order.guia.split(/([a-zA-Z]+|\d+)/);
+    arr = arr.filter(Boolean);
+
+    // Filtra elementos vacíos
+    const label = {
+        "Method": "GetTrackOrderDetail",
+        "Params": {
+            "GuideSerie": arr[0],
+            "GuideNumber": arr[1]
+        }
+    }
+    // return label;
+    return sendRequest(label);
+}
 
 const trackLabel = async (order) => {
     if (!order.empresa) {
@@ -132,4 +160,4 @@ console.log(process.env.ENDPOINT);
     return resp
 }
 
-module.exports = { sendRequest, createLabel, cancelLabel, trackLabel }
+module.exports = { sendRequest, createLabel, cancelLabel, trackLabel, getStatusLabel }

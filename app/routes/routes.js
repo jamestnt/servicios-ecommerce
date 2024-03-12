@@ -73,6 +73,14 @@ router.get('/tracking', async (req, res) => {
     res.json(response)
 })
 
+router.get('/get_status_label', async (req, res) => {
+    
+    const data = req.body
+    const response = await getStatusLabel(data);
+    res.status(response.error ? 500 : 200)
+    .json(response)
+})
+
 router.get('/crear_guia', async (req, res) => {
     
     const data = req.body
