@@ -101,11 +101,16 @@ const createInvoice = async (order) => {
     
     error = "error request"
     if (!data.error) {
-        data = await sendRequest(data, order.id, url);
-        error = false
+        try {
+            data = await sendRequest(data, order.id, url);
+            error = false;
+            console.log(data);
+            console.log(data[1].Errores);
+        } catch (error) {
+            error = true
+        }
     }
-    console.log(data);
-    console.log(data[1].Errores);
+    
     return { data, error: error }
 }
 

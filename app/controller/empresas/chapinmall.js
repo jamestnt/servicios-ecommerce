@@ -14,11 +14,11 @@ var chapinmall = {
             "city": "Guatemala"
         },
         "from_address": {
-            "name": "Chapin Mall",
-            "phone": "48551704",
-            "email": "admin@chapinmall.com",
+            "name": "Shopi.gt",
+            "phone": "48542951",
+            "email": "admin@shopi.gt",
             "HeaderCodeTownship": "0103",
-            "address1": "Km. 27 carr a Palencia, San Jose Pinula, Villa Montecinos 1, casa 1B",
+            "address1": "Carretera a Mataquescuintla, Valles de Navarra, sector Hacienda Navarra manzana B casa 39",
             "address2": "",
             "city": "Guatemala"
         },
@@ -37,7 +37,7 @@ var chapinmall = {
         "Ticket_Number": "4575154",
         "Order_Number": 4575154,
         "IdCountry": "GT",
-        "CodeOfReference": "224160",
+        "CodeOfReference": "460543",
         "CountPieces": 1,
         "TotalWeight": "1",
         "TotalValue": "100.00",
@@ -47,16 +47,16 @@ var chapinmall = {
         "Collected": false,
         "COD": {
             "CashOnDelivery": false,
-            "CreditNumber": "140266",
+            "CreditNumber": "460543",
             "AmmountCashOnDelivery": 0,
             "CashOnDeliveryCurrency": "GTQ",
-            "BankAccountName": "Chapin mall",
+            "BankAccountName": "Shopi.gt",
             "BankId": 33,
             "BankAccountType": "Monetaria",
-            "BankAccountId": "002-0136727",
-            "Identification": "3689257570101"
+            "BankAccountId": "030-012167-0",
+            "Identification": "3850479590101"
         },
-        "BillAccountNumber": "92469078",
+        "BillAccountNumber": "119760215",
         "PaymentMethod": "Qpay",
         "Note": ""
     }
