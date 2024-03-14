@@ -119,7 +119,7 @@ return sendRequest(label);
 }
 
 const sendRequest = async (request) => {
-console.log(process.env.ENDPOINT);
+    console.log(request);
     const jsonString = JSON.stringify(request)
     let data = JSON.stringify({
         "CodApp": process.env.CODAPP,
