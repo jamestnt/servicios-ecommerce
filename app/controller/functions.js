@@ -21,7 +21,7 @@ const formatData = async (order) => {
     const offsetHoras = String(Math.abs(Math.floor(zonaHoraria / 60))).padStart(2, '0');
     const offsetMinutos = String(Math.abs(zonaHoraria % 60)).padStart(2, '0');
 
-    order['Fecha'] = order['Fecha'] ? order['Fecha'] : `${año}-${mes}-${dia}T${hora}:${minuto}:${segundo}.${milisegundo}-6:00`;
+    order['Fecha'] = order['Fecha'] ? order['Fecha'] : `${año}-${mes}-${dia}T${hora}:${minuto}:${segundo}.${milisegundo}${signo}${offsetHoras}:${offsetMinutos}`;
     try {
         if (typeof order.accion == "undefined") {
             return {
@@ -46,7 +46,7 @@ const formatData = async (order) => {
             allField = typeof order.Doc && typeof order.Nit && typeof order.FechaEmision && typeof order.Fecha
             console.log("#############################################");
             console.log(order);
-            console.log("#############################################"); 
+            console.log("#############################################");
             if (!allField) {
                 return {
                     data: "",
@@ -54,7 +54,7 @@ const formatData = async (order) => {
                 };
             }
             data = await fs.readFile(path.join(__dirname, './FormatosFacturas/anuFac.xml'), 'utf-8');
-            
+
         }
         Object.keys(order).map(function (item, i) {
             data = data.Add(item.toCapitalize(), order[item]);
@@ -93,16 +93,16 @@ const formatPDF = async (order, template) => {
     try {
         // order.items = await formatItems(order.items, formatoItems)
         let keys = getValues(order);
-        
+
         var items = ""
-        if (!order.Items.Item.length){
+        if (!order.Items.Item.length) {
             temp = []
-            
+
             temp.push(order.Items.Item)
             order.Items.Item = temp
             console.log(JSON.stringify(order.Items.Item));
         }
-        order.Items.Item.map((item, i)=>{
+        order.Items.Item.map((item, i) => {
             items += `<tr class="item">`;
             items += `<td>${parseFloat(item.Cantidad).toFixed(0)}</td>`;
             items += `<td>${item.Descripcion}</td>`;
@@ -110,24 +110,24 @@ const formatPDF = async (order, template) => {
             items += `<td>Q.${parseFloat(item.Precio).toFixed(2)}</td>`;
             items += `</tr>`;
         });
-        
+
         keys["Items"] = items;
         keys["DireccionR"] = order.Direccion;
         keys["GranTotal"] = parseFloat(keys["GranTotal"]).toFixed(2)
         Object.keys(keys).map(function (item, i) {
             template = template.Add(item, keys[item]);
         });
-        
+
         return {
             data: template,
             error: false
         };
     } catch (error) {
-            return {
-                data: "",
-                error: ('Error al leer el formato:' + error)
-            };
-        
+        return {
+            data: "",
+            error: ('Error al leer el formato:' + error)
+        };
+
     }
 }
 
