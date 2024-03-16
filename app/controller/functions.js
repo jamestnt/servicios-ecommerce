@@ -6,6 +6,7 @@ const formatData = async (order) => {
     const fs = require('fs').promises;
     const path = require('path');
     const fechaActual = new Date();
+    fechaActual.setUTCHours(fechaActual.getUTCHours() - 6);
 
     const año = fechaActual.getFullYear();
     const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
