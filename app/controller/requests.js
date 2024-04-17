@@ -121,9 +121,9 @@ console.log(process.env.ENDPOINT);
         })
         .catch((error) => {
             console.log("RESPONSE1");
-            console.log(error.response.data.PayLoad);
+            console.log(error.response.data);
             return {
-                response: JSON.parse(Buffer.from(error.response.data.PayLoad, 'base64').toString('utf-8')),
+                response: error.response.data,
                 error: true
             }
 
