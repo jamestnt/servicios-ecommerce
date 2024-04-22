@@ -151,7 +151,7 @@ const sendRequest = async (request) => {
             console.log("RESPONSE1");
             console.log(error.response);
             return {
-                response: JSON.parse(Buffer.from(error.response.data.PayLoad, 'base64').toString('utf-8')),
+                response: error.response,
                 error: true
             }
 
