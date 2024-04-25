@@ -107,21 +107,21 @@ const trackLabel = async (order) => {
     arr = arr.filter(Boolean);
 
     // Filtra elementos vacíos
-    if(arr[1]){
+    if (typeof arr[1] != 'string'){
         return {
             response: "no tiene guia",
             error: true
         }
-    }
-    const label = {
-        "Method": "GetTrackOrderDetail",
-        "Params": {
-            "GuideSerie": arr[0],
-            "GuideNumber": arr[1]
+    }else{
+        const label = {
+            "Method": "GetTrackOrderDetail",
+            "Params": {
+                "GuideSerie": arr[0],
+                "GuideNumber": arr[1]
+            }
         }
+        return sendRequest(label);   
     }
-// return label;
-return sendRequest(label);
 }
 
 const sendRequest = async (request) => {
