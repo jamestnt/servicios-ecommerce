@@ -107,6 +107,12 @@ const trackLabel = async (order) => {
     arr = arr.filter(Boolean);
 
     // Filtra elementos vacíos
+    if(arr[1]){
+        return {
+            response: "no tiene guia",
+            error: true
+        }
+    }
     const label = {
         "Method": "GetTrackOrderDetail",
         "Params": {

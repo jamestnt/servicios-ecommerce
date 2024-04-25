@@ -69,7 +69,7 @@ router.get('/tracking', async (req, res) => {
     
     const data = req.body
     const response = await trackLabel(data);
-    // res.status(response.error ? 500 : 200)
+    res.status(response.error ? 500 : 200)
     res.json(response)
 })
 
