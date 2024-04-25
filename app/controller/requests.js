@@ -155,7 +155,7 @@ const sendRequest = async (request) => {
         })
         .catch((error) => {
             console.log("RESPONSE1");
-            console.log(error.response);
+            console.log(error);
             return {
                 response: error.response,
                 error: true
