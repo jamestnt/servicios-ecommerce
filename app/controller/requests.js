@@ -163,6 +163,7 @@ const sendRequest = async (request) => {
 
         });
     console.log("RESPONSE2");
+    console.log(resp);
     return resp
 }
 
