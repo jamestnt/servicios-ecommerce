@@ -100,6 +100,7 @@ const formatPDF = async (order, template) => {
 
             temp.push(order.Items.Item)
             order.Items.Item = temp
+		console.log('formatPDF');
             console.log(JSON.stringify(order.Items.Item));
         }
         order.Items.Item.map((item, i) => {
