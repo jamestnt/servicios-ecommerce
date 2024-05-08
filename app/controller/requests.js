@@ -111,18 +111,19 @@ console.log(process.env.ENDPOINT);
 
     console.log("REQUEST");
     console.log(config);
-    const resp = await axios.request(config)
+    const resp = {}
+    await axios.request(config)
         .then((response) => {
             console.log("RESPONSE0");
-            return {
+            resp= {
                 response: JSON.parse(Buffer.from(response.data.PayLoad, 'base64').toString('utf-8')),
                 error: false
             }
         })
         .catch((error) => {
             console.log("RESPONSE1");
-            console.log(error.response.data);
-            return {
+            console.log(error);
+            resp= {
                 response: error.response.data,
                 error: true
             }
