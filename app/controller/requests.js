@@ -145,7 +145,7 @@ const sendRequest = async (request) => {
 
     console.log("REQUEST");
     console.log(config);
-    const resp = {}
+    var resp = {}
     await axios.request(config)
         .then((response) => {
             console.log("RESPONSE0");
@@ -156,7 +156,7 @@ const sendRequest = async (request) => {
         })
         .catch((error) => {
             console.log("RESPONSE1");
-            console.log(error);
+            console.log(error.response);
             resp= {
                 response: error.response.data,
                 error: true
@@ -164,7 +164,7 @@ const sendRequest = async (request) => {
 
         });
     console.log("RESPONSE2");
-    console.log(resp);
+    console.log(error.data);
     console.log("############## RESPONSE2");
     return resp
 }
