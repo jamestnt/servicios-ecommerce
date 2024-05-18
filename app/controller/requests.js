@@ -145,10 +145,11 @@ const sendRequest = async (request) => {
 
     console.log("REQUEST");
     console.log(config);
-    const resp = await axios.request(config)
+    const resp = {}
+    await axios.request(config)
         .then((response) => {
             console.log("RESPONSE0");
-            return {
+            resp= {
                 response: JSON.parse(Buffer.from(response.data.PayLoad, 'base64').toString('utf-8')),
                 error: false
             }
@@ -156,13 +157,15 @@ const sendRequest = async (request) => {
         .catch((error) => {
             console.log("RESPONSE1");
             console.log(error);
-            return {
-                response: error.response,
+            resp= {
+                response: error.response.data,
                 error: true
             }
 
         });
     console.log("RESPONSE2");
+    console.log(resp);
+    console.log("############## RESPONSE2");
     return resp
 }
 
