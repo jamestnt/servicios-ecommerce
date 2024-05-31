@@ -164,7 +164,7 @@ const sendRequest = async (request) => {
 
         });
     console.log("RESPONSE2");
-    console.log(resp.data);
+    console.log(resp.response);
     console.log("############## RESPONSE2");
     return resp
 }
