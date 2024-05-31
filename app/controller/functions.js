@@ -19,7 +19,9 @@ const formatData = async (order) => {
     const signo = zonaHoraria > 0 ? '-' : '+';
     const offsetHoras = String(Math.abs(Math.floor(zonaHoraria / 60))).padStart(2, '0');
     const offsetMinutos = String(Math.abs(zonaHoraria % 60)).padStart(2, '0');
-
+    console.log("################   formatData   #############################");
+    console.log(order);
+    console.log("#############################################");
     order['Fecha'] = order['Fecha'] ? order['Fecha'] : `${año}-${mes}-${dia}T${hora}:${minuto}:${segundo}.${milisegundo}-06:00`;
     try {
         if (typeof order.accion == "undefined") {
