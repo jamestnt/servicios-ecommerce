@@ -6,6 +6,7 @@ const formatData = async (order) => {
     const fs = require('fs').promises;
     const path = require('path');
     const fechaActual = new Date();
+    fechaActual.setUTCHours(fechaActual.getUTCHours() - 6);
 
     const año = fechaActual.getFullYear();
     const mes = String(fechaActual.getMonth() + 1).padStart(2, '0');
@@ -45,9 +46,7 @@ const formatData = async (order) => {
 
         } else {
             allField = typeof order.Doc && typeof order.Nit && typeof order.FechaEmision && typeof order.Fecha
-            console.log("#############################################");
-            console.log(order);
-            console.log("#############################################"); 
+
             if (!allField) {
                 return {
                     data: "",
@@ -55,7 +54,7 @@ const formatData = async (order) => {
                 };
             }
             data = await fs.readFile(path.join(__dirname, './FormatosFacturas/anuFac.xml'), 'utf-8');
-            
+
         }
         order.Nit = order.Nit.toCapitalize();
         order.Nit = order.Nit.replace(/\s+/g, '');
@@ -96,45 +95,42 @@ const formatPDF = async (order, template) => {
     try {
         // order.items = await formatItems(order.items, formatoItems)
         let keys = getValues(order);
-        
+
         var items = ""
-        if (!order.Items.Item.length){
+        if (!order.Items.Item.length) {
             temp = []
-            
+
             temp.push(order.Items.Item)
             order.Items.Item = temp
             console.log('formatPDF');
             console.log(JSON.stringify(order.Items.Item));
         }
-        order.Items.Item.map((item, i)=>{
-            console.log("#######$$$$$$#####");
-            console.log(item);
-            console.log("#######$$$$$$#####");
+        order.Items.Item.map((item, i) => {
             items += `<tr class="item">`;
             items += `<td>${parseFloat(item.Cantidad).toFixed(0)}</td>`;
-            items += `<td>${item.Descripcion ? item.Descripcion : item.Nombre}</td>`;
-            items += `<td>Q.${parseFloat(item.PrecioUnitario ? item.PrecioUnitario : item.precio).toFixed(2)}</td>`;
-            items += `<td>Q.${parseFloat(item.Precio ? item.Precio  : item.precio).toFixed(2)}</td>`;
+            items += `<td>${item.Descripcion}</td>`;
+            items += `<td>Q.${parseFloat(item.PrecioUnitario).toFixed(2)}</td>`;
+            items += `<td>Q.${parseFloat(item.Precio).toFixed(2)}</td>`;
             items += `</tr>`;
         });
-        
+
         keys["Items"] = items;
         keys["DireccionR"] = order.Direccion;
         keys["GranTotal"] = parseFloat(keys["GranTotal"]).toFixed(2)
         Object.keys(keys).map(function (item, i) {
             template = template.Add(item, keys[item]);
         });
-        
+
         return {
             data: template,
             error: false
         };
     } catch (error) {
-            return {
-                data: "",
-                error: ('Error al leer el formato:' + error)
-            };
-        
+        return {
+            data: "",
+            error: ('Error al leer el formato:' + error)
+        };
+
     }
 }
 

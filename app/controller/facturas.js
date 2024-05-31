@@ -114,7 +114,7 @@ const createInvoice = async (order) => {
         }
     } catch (error) {
         console.log("################ ORDEN CON ERROR ###################");
-        console.log(order)
+        order
         console.log("################ ////ORDEN CON ERROR ###################");
     }
     //    console.log(data);
@@ -151,3 +151,4 @@ const sendRequest = async (data, orderId, URL) => {
 }
 
 module.exports = { createInvoice, getNit, getPDF }
+    ``
