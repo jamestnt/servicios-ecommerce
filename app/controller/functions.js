@@ -20,7 +20,7 @@ const formatData = async (order) => {
     const offsetHoras = String(Math.abs(Math.floor(zonaHoraria / 60))).padStart(2, '0');
     const offsetMinutos = String(Math.abs(zonaHoraria % 60)).padStart(2, '0');
 
-    order['Fecha'] = order['Fecha'] ? order['Fecha'] : `${año}-${mes}-${dia}T${hora}:${minuto}:${segundo}.${milisegundo}-6:00`;
+    order['Fecha'] = order['Fecha'] ? order['Fecha'] : `${año}-${mes}-${dia}T${hora}:${minuto}:${segundo}.${milisegundo}-06:00`;
     try {
         if (typeof order.accion == "undefined") {
             return {
@@ -102,11 +102,14 @@ const formatPDF = async (order, template) => {
             console.log(JSON.stringify(order.Items.Item));
         }
         order.Items.Item.map((item, i)=>{
+            console.log("#######$$$$$$#####");
+            console.log(item);
+            console.log("#######$$$$$$#####");
             items += `<tr class="item">`;
             items += `<td>${parseFloat(item.Cantidad).toFixed(0)}</td>`;
-            items += `<td>${item.Descripcion}</td>`;
-            items += `<td>Q.${parseFloat(item.PrecioUnitario).toFixed(2)}</td>`;
-            items += `<td>Q.${parseFloat(item.Precio).toFixed(2)}</td>`;
+            items += `<td>${item.Descripcion ? item.Descripcion : item.Nombre}</td>`;
+            items += `<td>Q.${parseFloat(item.PrecioUnitario ? item.PrecioUnitario : item.precio).toFixed(2)}</td>`;
+            items += `<td>Q.${parseFloat(item.Precio ? item.Precio  : item.precio).toFixed(2)}</td>`;
             items += `</tr>`;
         });
         

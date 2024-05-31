@@ -38,10 +38,28 @@ const getToken = async () => {
 const getPDF = async (orderData) => {
     const path = require('path');
     const fs = require('fs');
-
+    var $error = "";
     var htmlContent = await fs.promises.readFile(path.join(__dirname, '../assets/templatecmw.html'), 'utf-8');
-    
+    // console.log("#######################################################################################################################");
+    if (typeof orderData.Items == "undefined"){
+        var temp = []
+        try {
+            orderData.items.map((it,i)=>{
+                // console.log("#######$$$$$$#####");
+                // console.log(it);
+                // console.log("#######$$$$$$#####");
+                temp.push(it)
+            })
+        } catch (error) {
+            $error = error
+        }
+        
+        orderData.Items = { Item: temp };
+    }
     htmlContent = await formatPDF(orderData, htmlContent)
+    
+    // console.log(orderData.Items.Item[0]);
+    // console.log("#######################################################################################################################");
     try {
         const pdfBuffer = await convertirHTMLaPDF(htmlContent.data);
         // const pdfPath = path.join(__dirname, 'archivo.pdf');

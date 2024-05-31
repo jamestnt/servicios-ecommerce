@@ -111,7 +111,7 @@ console.log(process.env.ENDPOINT);
 
     console.log("REQUEST");
     console.log(config);
-    const resp = {}
+    var resp = {}
     await axios.request(config)
         .then((response) => {
             console.log("RESPONSE0");
@@ -124,7 +124,7 @@ console.log(process.env.ENDPOINT);
             console.log("RESPONSE1");
             console.log(error);
             resp= {
-                response: error.response.data,
+                response: error,
                 error: true
             }
 
