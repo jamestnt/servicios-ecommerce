@@ -130,7 +130,7 @@ console.log(process.env.ENDPOINT);
 
         });
     console.log("RESPONSE2");
-    console.log(rest.response.data);
+    console.log(resp.response.data);
     console.log("############## RESPONSE2");
     return resp
 }
