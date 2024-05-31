@@ -114,7 +114,7 @@ const createInvoice = async (order) => {
         }
     } catch (error) {
         console.log("################ ORDEN CON ERROR ###################");
-        order
+        console.log(order);
         console.log("################ ////ORDEN CON ERROR ###################");
     }
     //    console.log(data);
