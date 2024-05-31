@@ -56,8 +56,11 @@ const formatData = async (order) => {
             data = await fs.readFile(path.join(__dirname, './FormatosFacturas/anuFac.xml'), 'utf-8');
 
         }
-        order.Nit = order.Nit.toCapitalize();
-        order.Nit = order.Nit.replace(/\s+/g, '');
+        nit = typeof order.nit == 'undefined' ? order.Nit : order.nit;
+        nit = nit.toCapitalize();
+        nit = nit.replace(/\s+/g, '');
+        order.nit = nit;
+        order.Nit = nit;
         Object.keys(order).map(function (item, i) {
             data = data.Add(item.toCapitalize(), order[item]);
         });
