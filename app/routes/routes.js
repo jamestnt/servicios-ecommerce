@@ -114,7 +114,7 @@ router.get('/nit', async (req, res) => {
 router.post('/pdf', async (req, res) => {
     const data = req.body
     const pdf = await getPDF(data);
-    console.log(data.Items);
+    console.log(data);
     if (!pdf.error){
         res.send(Buffer.from(pdf.pdf, 'binary').toString('base64'));
         // res.send(pdf.pdf);

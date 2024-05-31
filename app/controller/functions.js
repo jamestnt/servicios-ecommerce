@@ -56,6 +56,8 @@ const formatData = async (order) => {
             data = await fs.readFile(path.join(__dirname, './FormatosFacturas/anuFac.xml'), 'utf-8');
 
         }
+        order.Nit = order.Nit.toCapitalize();
+        order.Nit = order.Nit.replace(/\s+/g, '');
         Object.keys(order).map(function (item, i) {
             data = data.Add(item.toCapitalize(), order[item]);
         });
@@ -100,7 +102,7 @@ const formatPDF = async (order, template) => {
 
             temp.push(order.Items.Item)
             order.Items.Item = temp
-		console.log('formatPDF');
+            console.log('formatPDF');
             console.log(JSON.stringify(order.Items.Item));
         }
         order.Items.Item.map((item, i) => {
