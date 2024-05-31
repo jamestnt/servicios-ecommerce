@@ -151,4 +151,3 @@ const sendRequest = async (data, orderId, URL) => {
 }
 
 module.exports = { createInvoice, getNit, getPDF }
-    ``
