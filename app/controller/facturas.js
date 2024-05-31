@@ -1,6 +1,6 @@
 const { generarLauValue } = require('../controller/encrypt.js');
 const empresas = require('./labelJson.js');
-const { formatData, formatPDF, convertirHTMLaPDF} = require('./functions.js');
+const { formatData, formatPDF, convertirHTMLaPDF } = require('./functions.js');
 const axios = require('axios');
 const qs = require('qs');
 const puppeteer = require('puppeteer');
@@ -11,7 +11,7 @@ const getToken = async () => {
         'password': process.env.PASSWORDFAC,
         'grant_type': 'password'
     });
-    
+
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -40,7 +40,7 @@ const getPDF = async (orderData) => {
     const fs = require('fs');
 
     var htmlContent = await fs.promises.readFile(path.join(__dirname, '../assets/templatecmw.html'), 'utf-8');
-    
+
     htmlContent = await formatPDF(orderData, htmlContent)
     try {
         const pdfBuffer = await convertirHTMLaPDF(htmlContent.data);
@@ -98,20 +98,27 @@ const createInvoice = async (order) => {
         data = await formatData(order);
         url = process.env.ENDPOINTFAC + 'AnularDte'
     }
-    
+
     error = "error request"
-    if (!data.error) {
-        try {
-            data = await sendRequest(data, order.id, url);
-            error = false
-            console.log(data);
-            console.log(data[1].Errores);
-        } catch (error) {
-            
+    console.log(data);
+    try {
+        if (!data.error) {
+            try {
+                data = await sendRequest(data, order.id, url);
+                error = false
+                console.log(data);
+                console.log(data[1].Errores);
+            } catch (error) {
+
+            }
         }
-  }
-//    console.log(data);
-//    console.log(data[1].Errores);
+    } catch (error) {
+        console.log("################ ORDEN CON ERROR ###################");
+        order
+        console.log("################ ////ORDEN CON ERROR ###################");
+    }
+    //    console.log(data);
+    //    console.log(data[1].Errores);
     return { data, error: error }
 }
 
@@ -144,3 +151,4 @@ const sendRequest = async (data, orderId, URL) => {
 }
 
 module.exports = { createInvoice, getNit, getPDF }
+``
