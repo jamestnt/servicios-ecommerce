@@ -1,6 +1,6 @@
 const { generarLauValue } = require('../controller/encrypt.js');
 const empresas = require('./labelJson.js');
-const { formatData, formatPDF, convertirHTMLaPDF} = require('./functions.js');
+const { formatData, formatPDF, convertirHTMLaPDF } = require('./functions.js');
 const axios = require('axios');
 const qs = require('qs');
 const puppeteer = require('puppeteer');
@@ -11,7 +11,7 @@ const getToken = async () => {
         'password': process.env.PASSWORDFAC,
         'grant_type': 'password'
     });
-    
+
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -38,28 +38,10 @@ const getToken = async () => {
 const getPDF = async (orderData) => {
     const path = require('path');
     const fs = require('fs');
-    var $error = "";
+
     var htmlContent = await fs.promises.readFile(path.join(__dirname, '../assets/templatecmw.html'), 'utf-8');
-    // console.log("#######################################################################################################################");
-    if (typeof orderData.Items == "undefined"){
-        var temp = []
-        try {
-            orderData.items.map((it,i)=>{
-                // console.log("#######$$$$$$#####");
-                // console.log(it);
-                // console.log("#######$$$$$$#####");
-                temp.push(it)
-            })
-        } catch (error) {
-            $error = error
-        }
-        
-        orderData.Items = { Item: temp };
-    }
+
     htmlContent = await formatPDF(orderData, htmlContent)
-    
-    // console.log(orderData.Items.Item[0]);
-    // console.log("#######################################################################################################################");
     try {
         const pdfBuffer = await convertirHTMLaPDF(htmlContent.data);
         // const pdfPath = path.join(__dirname, 'archivo.pdf');
@@ -116,19 +98,27 @@ const createInvoice = async (order) => {
         data = await formatData(order);
         url = process.env.ENDPOINTFAC + 'AnularDte'
     }
-    
+
     error = "error request"
-    if (!data.error) {
-        try {
-            data = await sendRequest(data, order.id, url);
-            error = false;
-            console.log(data);
-            console.log(data[1].Errores);
-        } catch (error) {
-            error = true
+    console.log(data);
+    try {
+        if (!data.error) {
+            try {
+                data = await sendRequest(data, order.id, url);
+                error = false
+                console.log(data);
+                console.log(data[1].Errores);
+            } catch (error) {
+
+            }
         }
+    } catch (error) {
+        console.log("################ ORDEN CON ERROR ###################");
+        order
+        console.log("################ ////ORDEN CON ERROR ###################");
     }
-    
+    //    console.log(data);
+    //    console.log(data[1].Errores);
     return { data, error: error }
 }
 
@@ -161,3 +151,4 @@ const sendRequest = async (data, orderId, URL) => {
 }
 
 module.exports = { createInvoice, getNit, getPDF }
+``
