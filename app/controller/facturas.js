@@ -5,10 +5,12 @@ const axios = require('axios');
 const qs = require('qs');
 const puppeteer = require('puppeteer');
 
-const getToken = async () => {
+const getToken = async (empresa) => {
+    let firstEmpresa = Object.keys(empresas)[0]
+    let empData = empresa ? empresas[empresa].cred : empresas[firstEmpresa].cred
     let data = qs.stringify({
-        'username': process.env.USERNAMEFAC,
-        'password': process.env.PASSWORDFAC,
+        'username': empData.USERNAMEFAC,
+        'password': empData.PASSWORDFAC,
         'grant_type': 'password'
     });
 
@@ -61,7 +63,7 @@ const getPDF = async (orderData) => {
 
 
 const getNit = async (nit) => {
-    const token = await getToken()
+    const token = await getToken(false)
 
     const axios = require('axios');
     let data = JSON.stringify({
@@ -124,7 +126,7 @@ const createInvoice = async (order) => {
 
 
 const sendRequest = async (data, orderId, URL) => {
-    const token = await getToken()
+    const token = await getToken(data.empresa)
     content = {
         "xmlDte": data.data,
     }

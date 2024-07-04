@@ -1,13 +1,13 @@
-var chapinmall = {
+var guatehogar = {
     "Method": "GetServiceByHeaderCodeRequest",
     "cred": {
-        "CODAPP":"SIMPORTCMWAPIECOM0103220241414",
-        "ENCKEY":"uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
-        "SKEY":"uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
-        "ENDPOINT":"https://apicore.forzadelivery.io/ecommerce/",
-        "ENDPOINTFAC":"https://ws.ccgfel.gt/Api/",
-        "USERNAMEFAC":"119244225",
-        "PASSWORDFAC":"cwM119$Sa2",
+        "CODAPP": "SICHMALLAPIECOM060720231805",
+        "ENCKEY": "uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
+        "SKEY": "-cVN3aTOInLA~=B0tJ$87X]2YG;cJ1CV",
+        "ENDPOINT": "https://apicore.forzadelivery.io/ecommerce/",
+        "ENDPOINTFAC": "https://ws.ccgfel.gt/Api/",
+        "USERNAMEFAC": "",
+        "PASSWORDFAC": "",
     },
     "Params": {
         "DateOfSale": "2020-08-13 11:51",
@@ -46,7 +46,7 @@ var chapinmall = {
         "Ticket_Number": "4575154",
         "Order_Number": 4575154,
         "IdCountry": "GT",
-        "CodeOfReference": "528201",
+        "CodeOfReference": "224160",
         "CountPieces": 1,
         "TotalWeight": "1",
         "TotalValue": "100.00",
@@ -56,7 +56,7 @@ var chapinmall = {
         "Collected": false,
         "COD": {
             "CashOnDelivery": false,
-            "CreditNumber": "528201",
+            "CreditNumber": "224160",
             "AmmountCashOnDelivery": 0,
             "CashOnDeliveryCurrency": "GTQ",
             "BankAccountName": "IMPORTADORA CMW",
@@ -71,4 +71,4 @@ var chapinmall = {
     }
 }
 
-module.exports = { chapinmall }
+module.exports = { guatehogar }

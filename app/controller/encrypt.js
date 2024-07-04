@@ -1,14 +1,11 @@
 const crypto = require('crypto');
 const CryptoJS = require('crypto-js');
+const empresas = require('./labelJson.js');
 
-function generarLauValue(data) {
+function generarLauValue(data, empresa) {
     try {
-        const hmac = CryptoJS.HmacSHA256(data, process.env.SKEY);
-
-        console.log("SKEY");
-        console.log(process.env.SKEY);
-        console.log("DATA");
-        console.log(data);
+        let skey = empresas[empresa].cred.SKEY
+        const hmac = CryptoJS.HmacSHA256(data, skey);
         const resultadoBase64 = CryptoJS.enc.Base64.stringify(hmac);
         return resultadoBase64;   
     } catch (error) {

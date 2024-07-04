@@ -22,7 +22,7 @@ const createLabel = async (order) => {
     newLabel['Params']['COD']['CashOnDelivery'] = order.CashOnDelivery ? true : false
     newLabel['Params']['COD']['AmmountCashOnDelivery'] = order.total
     newLabel['Params']['PaymentMethod'] = "ECommerce"
-
+    newLabel.cred = {};
     return sendRequest(newLabel);
 }
 
@@ -48,7 +48,7 @@ const cancelLabel = async (order) => {
         "Method": "SetCancelGuides",
         "Params": {
             "IdClient": LabelData.Params.COD.CreditNumber,
-            "Token": process.env.CODAPP,
+            "Token": LabelData.cred.CODAPP,
             "Guides": [
                 {
                     "Serie": arr[0],
@@ -120,15 +120,16 @@ const trackLabel = async (order) => {
                 "GuideNumber": arr[1]
             }
         }
-        return sendRequest(label);   
+        return sendRequest(label, order.empresa);   
     }
 }
 
-const sendRequest = async (request) => {
+const sendRequest = async (request, empresa) => {
+    let LabelData = empresas[empresa]
     console.log(request);
     const jsonString = JSON.stringify(request)
     let data = JSON.stringify({
-        "CodApp": process.env.CODAPP,
+        "CodApp": LabelData.cred.CODAPP,
         "PayLoad": Buffer.from(jsonString).toString('base64')
     });
 
