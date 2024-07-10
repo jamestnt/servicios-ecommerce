@@ -64,7 +64,7 @@ const formatData = async (order) => {
         Object.keys(order).map(function (item, i) {
             data = data.Add(item.toCapitalize(), order[item]);
         });
-        data.empresa = orden.empresa;
+        data.empresa = order.empresa;
         return {
             data: Buffer.from(data, 'utf-8').toString('base64'),
             error: false
