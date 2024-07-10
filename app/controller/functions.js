@@ -1,6 +1,8 @@
 const axios = require('axios');
 const { log } = require('console');
 const puppeteer = require('puppeteer');
+const empresas = require('./labelJson.js');
+
 
 const formatData = async (order) => {
     const fs = require('fs').promises;
@@ -20,9 +22,7 @@ const formatData = async (order) => {
     const signo = zonaHoraria > 0 ? '-' : '+';
     const offsetHoras = String(Math.abs(Math.floor(zonaHoraria / 60))).padStart(2, '0');
     const offsetMinutos = String(Math.abs(zonaHoraria % 60)).padStart(2, '0');
-    console.log("################   formatData   #############################");
-    console.log(order);
-    console.log("#############################################");
+
     order['Fecha'] = order['Fecha'] ? order['Fecha'] : `${año}-${mes}-${dia}T${hora}:${minuto}:${segundo}.${milisegundo}-06:00`;
     try {
         if (typeof order.accion == "undefined") {
@@ -61,21 +61,29 @@ const formatData = async (order) => {
         nit = nit.replace(/\s+/g, '');
         order.nit = nit;
         order.Nit = nit;
+        let empData = empresas[order.empresa];
+        order["FromEmail"] = empData.Params.from_address.email;
+        order["FromNit"] = empData.cred.NIT;
+        order["CName"] = empData.Params.from_address.name;
+        order["EName"] = empData.Params.from_address.name;
         Object.keys(order).map(function (item, i) {
             data = data.Add(item.toCapitalize(), order[item]);
         });
+        console.log("################   formatData   #############################");
+        console.log(data);
+        console.log("#############################################");
         data.empresa = order.empresa;
         return {
             data: Buffer.from(data, 'utf-8').toString('base64'),
             error: false
         };
     } catch (error) {
-        if (!allField) {
+        // if (!allField) {
             return {
                 data: "",
                 error: ('Error al leer el formato:' + error)
             };
-        }
+        // }
     }
 }
 
@@ -117,9 +125,13 @@ const formatPDF = async (order, template) => {
             items += `<td>Q.${parseFloat(item.Precio).toFixed(2)}</td>`;
             items += `</tr>`;
         });
-
+        let empData = empresas[order.empresa];
         keys["Items"] = items;
         keys["DireccionR"] = order.Direccion;
+        keys["FromEmail"] = empData.Params.from_address.email;
+        keys["FromNit"] = empData.cred.NIT;
+        keys["CName"] = empData.Params.from_address.name;
+        keys["EName"] = empData.Params.from_address.name;
         keys["GranTotal"] = parseFloat(keys["GranTotal"]).toFixed(2)
         Object.keys(keys).map(function (item, i) {
             template = template.Add(item, keys[item]);

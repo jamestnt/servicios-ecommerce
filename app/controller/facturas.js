@@ -6,8 +6,9 @@ const qs = require('qs');
 const puppeteer = require('puppeteer');
 
 const getToken = async (empresa) => {
-    let firstEmpresa = Object.keys(empresas)[0]
+    let firstEmpresa = Object.keys(empresas)[1]
     let empData = empresa ? empresas[empresa].cred : empresas[firstEmpresa].cred
+    // console.log(empData);
     let data = qs.stringify({
         'username': empData.USERNAMEFAC,
         'password': empData.PASSWORDFAC,
@@ -64,7 +65,7 @@ const getPDF = async (orderData) => {
 
 const getNit = async (nit) => {
     const token = await getToken(false)
-
+    // console.log(token);
     const axios = require('axios');
     let data = JSON.stringify({
         "Nit": "81599595"
@@ -92,7 +93,9 @@ const getNit = async (nit) => {
 
 const createInvoice = async (order) => {
     var url = "";
-    data = {}
+    var data = {
+        error:false
+    }
     if (order.accion == "new") {
         data = await formatData(order);
         url = process.env.ENDPOINTFAC + 'CertificarDte'
@@ -102,25 +105,26 @@ const createInvoice = async (order) => {
     }
 
     error = "error request"
-    console.log(data);
     try {
         if (!data.error) {
             try {
                 data = await sendRequest(data, order.id, url);
                 error = false
-                console.log(data);
-                console.log(data[1].Errores);
+                // console.log(data);
+                // console.log(data[1].Errores);
             } catch (error) {
 
             }
+        }else{
+            // console.log(data.error);
         }
     } catch (error) {
-        console.log("################ ORDEN CON ERROR ###################");
-        order
-        console.log("################ ////ORDEN CON ERROR ###################");
+        // console.log("################ ORDEN CON ERROR ###################");
+        // console.log(error);
+        // console.log("################ ////ORDEN CON ERROR ###################");
     }
-    //    console.log(data);
-    //    console.log(data[1].Errores);
+       console.log(data);
+       console.log(data[1].Errores);
     return { data, error: error }
 }
 

@@ -4,9 +4,10 @@ var guatehogar = {
         "CODAPP": "SICHMALLAPIECOM060720231805",
         "ENCKEY": "uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
         "SKEY": "-cVN3aTOInLA~=B0tJ$87X]2YG;cJ1CV",
-        "ENDPOINT": "https://apicore.forzadelivery.io/ecommerce/",
+        "ENDPOINT": "https://sandbox.apicore.forzadelivery.io:40467/ecommerce/",
         "ENDPOINTFAC": "https://testws.ccgfel.gt/Api/",
         "USERNAMEFAC": "81599595",
+        "NIT": "81599595",
         "PASSWORDFAC": "Hogar01#",
     },
     "Params": {
