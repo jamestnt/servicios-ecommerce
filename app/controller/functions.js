@@ -58,7 +58,7 @@ const formatData = async (order) => {
         }
         nit = typeof order.nit == 'undefined' ? order.Nit : order.nit;
         nit = nit.toCapitalize();
-        nit = nit.replace(/\s+/g, '');
+        nit = nit.replace(/\D+/g, '');
         order.nit = nit;
         order.Nit = nit;
         Object.keys(order).map(function (item, i) {
