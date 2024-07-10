@@ -5,7 +5,7 @@ var chapinmall = {
         "ENCKEY":"uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
         "SKEY":"uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
         "ENDPOINT":"https://apicore.forzadelivery.io/ecommerce/",
-        "ENDPOINTFAC":"https://ws.ccgfel.gt/Api/",
+        "ENDPOINTFAC":"https://testws.ccgfel.gt/Api/",
         "USERNAMEFAC":"119244225",
         "PASSWORDFAC":"cwM119$Sa2",
     },

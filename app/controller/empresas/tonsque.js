@@ -1,13 +1,13 @@
-var chapinmall = {
+var tonsque = {
     "Method": "GetServiceByHeaderCodeRequest",
     "cred": {
         "CODAPP":"SIMPORTCMWAPIECOM0103220241414",
         "ENCKEY":"uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
         "SKEY":"uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
         "ENDPOINT":"https://apicore.forzadelivery.io/ecommerce/",
-        "ENDPOINTFAC":"https://ws.ccgfel.gt/Api/",
-        "USERNAMEFAC":"119244225",
-        "PASSWORDFAC":"cwM119$Sa2",
+        "ENDPOINTFAC":"https://testws.ccgfel.gt/Api/",
+        "USERNAMEFAC":"120236982",
+        "PASSWORDFAC":"Creativos123#",
     },
     "Params": {
         "DateOfSale": "2020-08-13 11:51",
@@ -25,7 +25,7 @@ var chapinmall = {
         "from_address": {
             "name": "Importadora CMW",
             "phone": "48551704",
-            "email": "admin@chapinmall.com",
+            "email": "admin@tonsque.gt",
             "HeaderCodeTownship": "0103",
             "address1": "Km. 27 carr a Palencia, San Jose Pinula, Villa Montecinos 1, casa 1B",
             "address2": "",
@@ -71,4 +71,4 @@ var chapinmall = {
     }
 }
 
-module.exports = { chapinmall }
+module.exports = { tonsque }

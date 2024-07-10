@@ -5,9 +5,9 @@ var guatehogar = {
         "ENCKEY": "uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
         "SKEY": "-cVN3aTOInLA~=B0tJ$87X]2YG;cJ1CV",
         "ENDPOINT": "https://apicore.forzadelivery.io/ecommerce/",
-        "ENDPOINTFAC": "https://ws.ccgfel.gt/Api/",
-        "USERNAMEFAC": "",
-        "PASSWORDFAC": "",
+        "ENDPOINTFAC": "https://testws.ccgfel.gt/Api/",
+        "USERNAMEFAC": "81599595",
+        "PASSWORDFAC": "Hogar01#",
     },
     "Params": {
         "DateOfSale": "2020-08-13 11:51",
@@ -25,7 +25,7 @@ var guatehogar = {
         "from_address": {
             "name": "Importadora CMW",
             "phone": "48551704",
-            "email": "admin@chapinmall.com",
+            "email": "admin@guatehogar.com",
             "HeaderCodeTownship": "0103",
             "address1": "Km. 27 carr a Palencia, San Jose Pinula, Villa Montecinos 1, casa 1B",
             "address2": "",
