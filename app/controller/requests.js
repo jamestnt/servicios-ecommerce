@@ -22,8 +22,8 @@ const createLabel = async (order) => {
     newLabel['Params']['COD']['CashOnDelivery'] = order.CashOnDelivery ? true : false
     newLabel['Params']['COD']['AmmountCashOnDelivery'] = order.total
     newLabel['Params']['PaymentMethod'] = "ECommerce"
-    newLabel.cred = {};
-    return sendRequest(newLabel);
+    
+    return sendRequest(newLabel, order.empresa);
 }
 
 const cancelLabel = async (order) => {
@@ -58,7 +58,7 @@ const cancelLabel = async (order) => {
         }
     }
     // return label;
-    return sendRequest(label);
+    return sendRequest(label,order.empresa);
 }
 const getStatusLabel = async (order) => {
     if (!order.empresa) {
@@ -86,7 +86,7 @@ const getStatusLabel = async (order) => {
         }
     }
     // return label;
-    return sendRequest(label);
+    return sendRequest(label, order.empresa);
 }
 
 const trackLabel = async (order) => {
@@ -126,7 +126,6 @@ const trackLabel = async (order) => {
 
 const sendRequest = async (request, empresa) => {
     let LabelData = empresas[empresa]
-    console.log(request);
     const jsonString = JSON.stringify(request)
     let data = JSON.stringify({
         "CodApp": LabelData.cred.CODAPP,
@@ -138,15 +137,13 @@ const sendRequest = async (request, empresa) => {
         maxBodyLength: Infinity,
         url: process.env.ENDPOINT + request.Method,
         headers: {
-            'LauValue': generarLauValue(jsonString),
+            'LauValue': generarLauValue(jsonString, empresa),
             'Content-Type': 'application/json'
         },
         data: JSON.parse(data)
     };
-
-    console.log("REQUEST");
-    console.log(config);
     var resp = {}
+    
     await axios.request(config)
         .then((response) => {
             console.log("RESPONSE0");

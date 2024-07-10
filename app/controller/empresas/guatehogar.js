@@ -9,6 +9,8 @@ var guatehogar = {
         "USERNAMEFAC": "81599595",
         "NIT": "81599595",
         "PASSWORDFAC": "Hogar01#",
+        "CodigoEscenario": "1",
+        "TipoFrase": "1"
     },
     "Params": {
         "DateOfSale": "2020-08-13 11:51",

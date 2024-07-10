@@ -58,11 +58,13 @@ const formatData = async (order) => {
         }
         nit = typeof order.nit == 'undefined' ? order.Nit : order.nit;
         nit = nit.toCapitalize();
-        nit = nit.replace(/\s+/g, '');
+        nit = nit.replace(/\D+/g, '');
         order.nit = nit;
         order.Nit = nit;
         let empData = empresas[order.empresa];
         order["FromEmail"] = empData.Params.from_address.email;
+        order["CodigoEscenario"] = empData.cred.CodigoEscenario;
+        order["TipoFrase"] = empData.cred.TipoFrase;
         order["FromNit"] = empData.cred.NIT;
         order["CName"] = empData.Params.from_address.name;
         order["EName"] = empData.Params.from_address.name;
@@ -126,6 +128,7 @@ const formatPDF = async (order, template) => {
             items += `</tr>`;
         });
         let empData = empresas[order.empresa];
+        console.log(order.empresa);
         keys["Items"] = items;
         keys["DireccionR"] = order.Direccion;
         keys["FromEmail"] = empData.Params.from_address.email;

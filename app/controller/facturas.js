@@ -14,7 +14,9 @@ const getToken = async (empresa) => {
         'password': empData.PASSWORDFAC,
         'grant_type': 'password'
     });
-
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+    console.log(data);
+    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -45,6 +47,7 @@ const getPDF = async (orderData) => {
     var htmlContent = await fs.promises.readFile(path.join(__dirname, '../assets/templatecmw.html'), 'utf-8');
 
     htmlContent = await formatPDF(orderData, htmlContent)
+    console.log(htmlContent);
     try {
         const pdfBuffer = await convertirHTMLaPDF(htmlContent.data);
         // const pdfPath = path.join(__dirname, 'archivo.pdf');
@@ -108,7 +111,7 @@ const createInvoice = async (order) => {
     try {
         if (!data.error) {
             try {
-                data = await sendRequest(data, order.id, url);
+                data = await sendRequest(data, order.id, url, order.empresa);
                 error = false
                 // console.log(data);
                 // console.log(data[1].Errores);
@@ -129,8 +132,8 @@ const createInvoice = async (order) => {
 }
 
 
-const sendRequest = async (data, orderId, URL) => {
-    const token = await getToken(data.empresa)
+const sendRequest = async (data, orderId, URL, empresa) => {
+    const token = await getToken(empresa)
     content = {
         "xmlDte": data.data,
     }

@@ -9,6 +9,8 @@ var chapinmall = {
         "NIT":"119244225",
         "USERNAMEFAC":"119244225",
         "PASSWORDFAC":"cwM119$Sa2",
+        "CodigoEscenario": "1",
+        "TipoFrase": "1"
     },
     "Params": {
         "DateOfSale": "2020-08-13 11:51",

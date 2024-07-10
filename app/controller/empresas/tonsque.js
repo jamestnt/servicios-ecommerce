@@ -9,6 +9,8 @@ var tonsque = {
         "NIT":"120236982",
         "USERNAMEFAC":"120236982",
         "PASSWORDFAC":"Creativos123#",
+        "CodigoEscenario":"2",
+        "TipoFrase":"1"
     },
     "Params": {
         "DateOfSale": "2020-08-13 11:51",
