@@ -134,6 +134,8 @@ const formatPDF = async (order, template) => {
         keys["FromEmail"] = empData.Params.from_address.email;
         keys["FromNit"] = empData.cred.NIT;
         keys["CName"] = empData.Params.from_address.name;
+        keys["logoEmpresa"] = empData.cred.logoEmpresa;
+        keys["infoEmpresa"] = empData.cred.infoEmpresa;
         keys["EName"] = empData.Params.from_address.name;
         keys["GranTotal"] = parseFloat(keys["GranTotal"]).toFixed(2)
         Object.keys(keys).map(function (item, i) {
