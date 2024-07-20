@@ -158,7 +158,7 @@ const sendRequest = async (request) => {
             console.log("RESPONSE1");
             console.log(error.response);
             resp= {
-                response: error.response.data,
+                response: error.response,
                 error: true
             }
 
