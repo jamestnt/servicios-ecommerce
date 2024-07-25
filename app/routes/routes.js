@@ -21,6 +21,10 @@ router.use((req, res, next) => {
     // }
 })
 
+router.get('/', async (req, res) => {
+    res.send("HELLO WORLD")
+});
+
 router.get('/get_token', async (req, res) => {
     const user = await jwt_get_token({
         id: 1,
