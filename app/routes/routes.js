@@ -49,6 +49,10 @@ router.get('/get_municipios', async (req, res) => {
     res.json(response)
 })
 
+router.get('/', async (req, res) => {
+    
+    res.send("HELLO WORLD")
+});
 router.get('/get_banks', async (req, res) => {
     const data = {
         "Method": "GetBankName",
