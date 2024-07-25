@@ -22,6 +22,7 @@ router.use((req, res, next) => {
 })
 
 router.get('/', async (req, res) => {
+    console.log("HELLO WORLD");
     res.send("HELLO WORLD")
 });
 
