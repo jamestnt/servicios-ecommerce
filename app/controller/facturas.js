@@ -14,9 +14,7 @@ const getToken = async (empresa) => {
         'password': empData.PASSWORDFAC,
         'grant_type': 'password'
     });
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    console.log(data);
-    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+
     let config = {
         method: 'post',
         maxBodyLength: Infinity,
@@ -47,10 +45,11 @@ const getPDF = async (orderData) => {
     var htmlContent = await fs.promises.readFile(path.join(__dirname, '../assets/templatecmw.html'), 'utf-8');
 
     htmlContent = await formatPDF(orderData, htmlContent)
-    console.log(htmlContent);
+    
     try {
-        const pdfPath = path.join(__dirname, '../facturas/' + orderData['params']['Order_Number']+'.pdf');
-        const pdfBuffer = await convertirHTMLaPDF(htmlContent.data);
+        const pdfPath = path.join(__dirname, '../facturas/' + orderData.OrderId +'.pdf');
+        console.log(pdfPath);
+        const pdfBuffer = await convertirHTMLaPDF(htmlContent.data, pdfPath);
         // const pdfPath = path.join(__dirname, 'archivo.pdf');
         // fs.writeFileSync(pdfPath, pdfBuffer);
         return {

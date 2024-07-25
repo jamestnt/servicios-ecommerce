@@ -2,7 +2,8 @@ const express = require('express')
 const { jwt_valid_token, jwt_get_token } = require('../middleware/jwt.js');
 const { sendRequest, trackLabel, createLabel, cancelLabel } = require('../controller/requests.js');
 const { createInvoice, getNit, getPDF } = require('../controller/facturas.js');
-const puppeteer = require('puppeteer');
+const { decrypt } = require('../controller/functions.js');;
+const path = require('path');
 const router = express.Router()
 
 router.use((req, res, next) => {
@@ -128,6 +129,33 @@ router.post('/pdf', async (req, res) => {
         res.status(500).send(pdf.error);
     }
 })
+
+function myMiddleware(req, res, next) {
+    next(); // Llama al siguiente middleware o ruta
+}
+
+router.use(myMiddleware);
+
+
+router.get('/download-pdf/*', async (req, res) => {
+    const fs = require('fs');
+    const order = decrypt(req.params[0], process.env.keyOrder);
+    let data = JSON.parse(order)
+    const pdfPath = path.join(__dirname, '../facturas/', `${data.id_orden}.pdf`); 
+    try {
+        if (fs.existsSync(pdfPath)) {
+            res.setHeader('Content-Type', 'application/pdf');
+
+            const pdfStream = fs.createReadStream(pdfPath);
+            pdfStream.pipe(res);
+        } else {
+            res.status(404).send('Factura no encontrado.');
+        }
+    } catch (error) {
+        console.error('Error al descargar el archivo PDF:', error);
+        res.status(500).send('Error interno del servidor.');
+    }
+});
 
 
 module.exports = router

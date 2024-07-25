@@ -2,7 +2,22 @@ const axios = require('axios');
 const { log } = require('console');
 const puppeteer = require('puppeteer');
 const empresas = require('./labelJson.js');
+const crypto = require('crypto');
+const CryptoJS = require('crypto-js');
 
+
+function decrypt(encryptedDataUrlSafe, key) {
+    let encryptedData = encryptedDataUrlSafe.replace(/-/g, '+').replace(/_/g, '/');
+    encryptedData = encryptedData.padEnd(encryptedData.length + (4 - (encryptedData.length % 4)) % 4, '=');
+    const encryptedBuffer = Buffer.from(encryptedData, 'base64');
+    const iv = encryptedBuffer.slice(0, 16);
+    const encryptedText = encryptedBuffer.slice(16);
+    const derivedKey = crypto.createHash('sha256').update(key).digest();
+    const decipher = crypto.createDecipheriv('aes-256-cbc', derivedKey, iv);
+    let decrypted = decipher.update(encryptedText, 'binary', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
 
 const formatData = async (order) => {
     const fs = require('fs').promises;
@@ -201,6 +216,7 @@ async function convertirHTMLaPDF(htmlContent, outputPath) {
 }
 
 async function deleteFile(filePath) {
+    const fs = require('fs').promises;
     try {
         await fs.access(filePath); // Verifica si el archivo existe
         await fs.unlink(filePath); // Elimina el archivo si existe
@@ -233,4 +249,4 @@ String.prototype.toCapitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-module.exports = { formatData, formatItems, convertirHTMLaPDF, formatPDF }
+module.exports = { formatData, formatItems, convertirHTMLaPDF, formatPDF, decrypt }
