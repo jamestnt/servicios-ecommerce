@@ -57,7 +57,7 @@ const formatData = async (order) => {
 
         }
         nit = typeof order.nit == 'undefined' ? order.Nit : order.nit;
-        nit = nit.toCapitalize();
+        nit = nit.toUpperCase();
         if(nit.length >2){
             nit = nit.replace(/\D+/g, '');
         }
