@@ -81,10 +81,10 @@ const formatData = async (order) => {
         };
     } catch (error) {
         // if (!allField) {
-            return {
-                data: "",
-                error: ('Error al leer el formato:' + error)
-            };
+        return {
+            data: "",
+            error: ('Error al leer el formato:' + error)
+        };
         // }
     }
 }
@@ -182,15 +182,33 @@ const formatItems = async (items, formato) => {
 }
 
 
-async function convertirHTMLaPDF(htmlContent) {
+async function convertirHTMLaPDF(htmlContent, outputPath) {
     const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
     const page = await browser.newPage();
+    try {
+        await page.setContent(htmlContent);
+        await deleteFile(outputPath);
+        const pdfBuffer = await page.pdf({ path: outputPath, format: 'A4' });
 
-    await page.setContent(htmlContent);
-    const pdfBuffer = await page.pdf({ format: 'A4' });
-
-    await browser.close();
+    } catch (error) {
+        console.error('Error al generar o guardar el PDF:', error);
+    } finally {
+        await browser.close();
+    }
     return pdfBuffer;
+}
+
+async function deleteFile(filePath) {
+    try {
+        await fs.access(filePath); // Verifica si el archivo existe
+        await fs.unlink(filePath); // Elimina el archivo si existe
+        console.log(`Archivo existente eliminado: ${filePath}`);
+    } catch (error) {
+        // Si el archivo no existe o hay algún error al acceder o eliminar, manejar aquí
+        if (error.code !== 'ENOENT') { // Ignorar el error si el archivo no existe
+            throw error; // Lanza el error si es otro tipo de problema
+        }
+    }
 }
 
 function getValues(objeto, resultados = {}) {

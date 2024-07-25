@@ -49,6 +49,7 @@ const getPDF = async (orderData) => {
     htmlContent = await formatPDF(orderData, htmlContent)
     console.log(htmlContent);
     try {
+        const pdfPath = path.join(__dirname, '../facturas/' + orderData['params']['Order_Number']+'.pdf');
         const pdfBuffer = await convertirHTMLaPDF(htmlContent.data);
         // const pdfPath = path.join(__dirname, 'archivo.pdf');
         // fs.writeFileSync(pdfPath, pdfBuffer);
