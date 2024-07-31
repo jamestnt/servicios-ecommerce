@@ -202,10 +202,11 @@ const formatItems = async (items, formato) => {
 async function convertirHTMLaPDF(htmlContent, outputPath) {
     const browser = await puppeteer.launch({ executablePath: '/usr/bin/chromium', args: ['--no-sandbox'] });
     const page = await browser.newPage();
+    var pdfBuffer;
     try {
         await page.setContent(htmlContent);
         await deleteFile(outputPath);
-        const pdfBuffer = await page.pdf({ path: outputPath, format: 'A4' });
+         pdfBuffer = await page.pdf({ path: outputPath, format: 'A4' });
 
     } catch (error) {
         console.error('Error al generar o guardar el PDF:', error);
