@@ -50,8 +50,7 @@ const getPDF = async (orderData) => {
         const pdfPath = path.join(__dirname, '../facturas/' + orderData.OrderId +'.pdf');
         console.log(pdfPath);
         const pdfBuffer = await convertirHTMLaPDF(htmlContent.data, pdfPath);
-        // const pdfPath = path.join(__dirname, 'archivo.pdf');
-        // fs.writeFileSync(pdfPath, pdfBuffer);
+        fs.writeFileSync(pdfPath, pdfBuffer);
         return {
             pdf: pdfBuffer,
             error: false,
@@ -95,6 +94,8 @@ const getNit = async (nit) => {
 }
 
 const createInvoice = async (order) => {
+    const xml2js = require('xml2js');
+
     var url = "";
     var data = {
         error:false
@@ -113,10 +114,45 @@ const createInvoice = async (order) => {
             try {
                 data = await sendRequest(data, order.id, url, order.empresa);
                 error = false
-                // console.log(data);
-                // console.log(data[1].Errores);
+                const parser = new xml2js.Parser();
+                console.log("################################## DATA ###################################################");
+                console.log(data);
+                console.log("################################## DATA ###################################################");
+                facData = Buffer.from(data[1].XmlDteCertificado, 'base64')
+                console.log(data);
+                console.log("#########################################");
+                parser.parseString(facData.toString().replace(/dte:/g, ""), async (err, result) => {
+                    if (err){
+                        console.log(err);
+                    }else{
+                        var DataFac = {}
+                        DataFac['UUID'] = data[1]['UUID'];
+                        DataFac['Serie'] = data[1]['Serie'];
+                        DataFac['Numero'] = data[1]['Numero'];
+                        DataFac['OrderId'] = order.id,
+                            DataFac['FechaHoraCertificacion'] = data[1]['FechaHoraCertificacion'];
+                        console.log("RESULT");
+                        pdfData = result
+                        dataToSave = {
+                            "NombreEmisor": pdfData.GTDocumento.SAT[0].DTE[0].DatosEmision[0].Emisor[0].$.NombreEmisor,
+                            "NombreCertificador": pdfData.GTDocumento.SAT[0].DTE[0].Certificacion[0].NombreCertificador[0],
+                            "NITCertificador": pdfData.GTDocumento.SAT[0].DTE[0].Certificacion[0].NITCertificador[0],
+                            "DireccionEmisor": pdfData.GTDocumento.SAT[0].DTE[0].DatosEmision[0].Emisor[0].DireccionEmisor[0],
+                            "NITEmisor": pdfData.GTDocumento.SAT[0].DTE[0].DatosEmision[0].Emisor[0].$.NITEmisor,
+                            "Data": DataFac,
+                            "Receptor": pdfData.GTDocumento.SAT[0].DTE[0].DatosEmision[0].Receptor[0].$,
+                            "FechaHoraEmision": pdfData.GTDocumento.SAT[0].DTE[0].DatosEmision[0].DatosGenerales[0].$.FechaHoraEmision,
+                            "Direccion": pdfData.GTDocumento.SAT[0].DTE[0].DatosEmision[0].Receptor[0].DireccionReceptor[0],
+                            "Items": pdfData.GTDocumento.SAT[0].DTE[0].DatosEmision[0].Items[0],
+                            "GranTotal": pdfData.GTDocumento.SAT[0].DTE[0].DatosEmision[0].Totales[0].GranTotal[0],
+                            "OrderId": order.id,
+                        };
+                        await getPDF(dataToSave)
+                        console.log(JSON.stringify(result));
+                    }
+                });
             } catch (error) {
-
+                console.log(error);
             }
         }else{
             // console.log(data.error);
@@ -126,8 +162,8 @@ const createInvoice = async (order) => {
         // console.log(error);
         // console.log("################ ////ORDEN CON ERROR ###################");
     }
-       console.log(data);
-       console.log(data[1].Errores);
+    //    console.log(data);
+    //    console.log(data[1]);
     return { data, error: error }
 }
 

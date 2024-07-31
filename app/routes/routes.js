@@ -139,10 +139,11 @@ router.use(myMiddleware);
 
 router.get('/download-pdf/*', async (req, res) => {
     const fs = require('fs');
-    const order = decrypt(req.params[0], process.env.keyOrder);
-    let data = JSON.parse(order)
-    const pdfPath = path.join(__dirname, '../facturas/', `${data.id_orden}.pdf`); 
+    
     try {
+        const order = decrypt(req.params[0], process.env.keyOrder);
+        let data = JSON.parse(order)
+        const pdfPath = path.join(__dirname, '../facturas/', `${data.id_orden}.pdf`); 
         if (fs.existsSync(pdfPath)) {
             res.setHeader('Content-Type', 'application/pdf');
 
