@@ -65,8 +65,8 @@ const getPDF = async (orderData) => {
 }
 
 
-const getNit = async (nit) => {
-    const token = await getToken(false)
+const getNit = async (nit, empresa) => {
+    const token = await getToken(empresa)
     // console.log(token);
     const axios = require('axios');
     let data = JSON.stringify({
@@ -81,11 +81,12 @@ const getNit = async (nit) => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token.token,
         },
-        data: nit
+        data: {Nit:nit}
     };
 
     try {
         res = await axios.request(config)
+        console.log(res);
         return res.data
     } catch (error) {
         return error

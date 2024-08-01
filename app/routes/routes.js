@@ -111,9 +111,8 @@ router.get('/cancelar_invoice', async (req, res) => {
 
 router.get('/nit', async (req, res) => {
 
-    const data = req.body
-    console.log(data);
-    const response = await getNit(data);
+    const { Nit, empresa } = req.body
+    const response = await getNit(Nit,empresa);
     res.status(response.error ? 500 : 200)
         .json(response)
 })
