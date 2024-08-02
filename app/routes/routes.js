@@ -138,17 +138,18 @@ router.use(myMiddleware);
 
 router.get('/download-pdf/*', async (req, res) => {
     const fs = require('fs');
-    
     try {
         const order = decrypt(req.params[0], process.env.keyOrder);
         let data = JSON.parse(order)
         const pdfPath = path.join(__dirname, '../facturas/', `${data.id_orden}.pdf`); 
         if (fs.existsSync(pdfPath)) {
             res.setHeader('Content-Type', 'application/pdf');
-
+            console.error('SUCCES INVOICE');
+            console.error(pdfPath);
             const pdfStream = fs.createReadStream(pdfPath);
             pdfStream.pipe(res);
         } else {
+            console.error('404 INVOICE ');
             res.status(404).send('Factura no encontrado.');
         }
     } catch (error) {

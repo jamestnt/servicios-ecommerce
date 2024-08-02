@@ -65,9 +65,9 @@ var guatehogar = {
             16 calle 4-53 Edificio Marbella, zona 10,<br>\
             01010, Guatemala, Guatemala. <br>\
             Tel: 4855-1704",
-        "CODAPP": "SICHMALLAPIECOM060720231805",
+        "CODAPP": "SIGUATEHOAPIECOM020820241013",
         "ENCKEY": "uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
-        "SKEY": "-cVN3aTOInLA~=B0tJ$87X]2YG;cJ1CV",
+        "SKEY": "astyVjzTxcfg2DKRCyCS8hFKwnYx6PBE",
         "ENDPOINT": "https://apicore.forzadelivery.io/ecommerce/",
         "ENDPOINTFAC": "https://ws.ccgfel.gt/Api/",
         "USERNAMEFAC": "81599595",

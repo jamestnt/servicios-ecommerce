@@ -122,9 +122,7 @@ const formatPDF = async (order, template) => {
     const offsetHoras = String(Math.abs(Math.floor(zonaHoraria / 60))).padStart(2, '0');
     const offsetMinutos = String(Math.abs(zonaHoraria % 60)).padStart(2, '0');
 
-    // order['Fecha'] = `${año}-${mes}-${dia}T${hora}:${minuto}:${segundo}.${milisegundo}${signo}${offsetHoras}:${offsetMinutos}`;
     try {
-        // order.items = await formatItems(order.items, formatoItems)
         let keys = getValues(order);
 
         var items = ""
@@ -133,8 +131,6 @@ const formatPDF = async (order, template) => {
 
             temp.push(order.Items.Item)
             order.Items.Item = temp
-            console.log('formatPDF');
-            console.log(JSON.stringify(order.Items.Item));
         }
         order.Items.Item.map((item, i) => {
             items += `<tr class="item">`;
