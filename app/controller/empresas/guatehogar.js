@@ -14,7 +14,7 @@ var guatehogar = {
             "city": "Guatemala"
         },
         "from_address": {
-            "name": "Importadora CMW",
+            "name": "GuateHogar",
             "phone": "48551704",
             "email": "admin@guatehogar.com",
             "HeaderCodeTownship": "0103",
@@ -50,7 +50,7 @@ var guatehogar = {
             "CreditNumber": "224160",
             "AmmountCashOnDelivery": 0,
             "CashOnDeliveryCurrency": "GTQ",
-            "BankAccountName": "IMPORTADORA CMW",
+            "BankAccountName": "GuateHogar",
             "BankId": 33,
             "BankAccountType": "Monetaria",
             "BankAccountId": "030-0110350",
@@ -61,7 +61,7 @@ var guatehogar = {
         "Note": ""
     },
     "cred": {
-        "infoEmpresa": "<strong>Importadora CMW, Sociedad Anónima</strong><br>\
+        "infoEmpresa": "<strong>GuateHogar</strong><br>\
             16 calle 4-53 Edificio Marbella, zona 10,<br>\
             01010, Guatemala, Guatemala. <br>\
             Tel: 4855-1704",
