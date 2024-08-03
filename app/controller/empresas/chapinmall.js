@@ -29,7 +29,7 @@ var chapinmall = {
         },
         "from_address": {
             "name": "Importadora CMW",
-            "phone": "48551704",
+            "phone": "40551894",
             "email": "admin@chapinmall.com",
             "HeaderCodeTownship": "0103",
             "address1": "Km. 27 carr a Palencia, San Jose Pinula, Villa Montecinos 1, casa 1B",
