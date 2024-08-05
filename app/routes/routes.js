@@ -32,7 +32,7 @@ router.get('/get_token', async (req, res) => {
         id: 1,
         user: "james"
     })
-    console.log(user);
+    // console.log(user);
     return res.status(200).json(user);
 })
 

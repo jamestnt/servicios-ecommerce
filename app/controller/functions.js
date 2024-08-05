@@ -88,9 +88,7 @@ const formatData = async (order) => {
         Object.keys(order).map(function (item, i) {
             data = data.Add(item.toCapitalize(), order[item]);
         });
-        // console.log("################   formatData   #############################");
-        // console.log(data);
-        // console.log("#############################################");
+        
         data.empresa = order.empresa;
         return {
             data: Buffer.from(data, 'utf-8').toString('base64'),
@@ -141,7 +139,6 @@ const formatPDF = async (order, template) => {
             items += `</tr>`;
         });
         let empData = empresas[order.empresa];
-        console.log(order.empresa);
         keys["Items"] = items;
         keys["DireccionR"] = order.Direccion;
         keys["FromEmail"] = empData.Params.from_address.email;
@@ -217,7 +214,6 @@ async function deleteFile(filePath) {
     try {
         await fs.access(filePath); // Verifica si el archivo existe
         await fs.unlink(filePath); // Elimina el archivo si existe
-        console.log(`Archivo existente eliminado: ${filePath}`);
     } catch (error) {
         // Si el archivo no existe o hay algún error al acceder o eliminar, manejar aquí
         if (error.code !== 'ENOENT') { // Ignorar el error si el archivo no existe

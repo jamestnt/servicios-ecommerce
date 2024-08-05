@@ -122,6 +122,8 @@ const createInvoice = async (order) => {
                     DataFac['Serie'] = data[1]['Serie'];
                     DataFac['Numero'] = data[1]['Numero'];
                     DataFac['OrderId'] = order.id,
+                        console.log(DataFac);
+                    
                         DataFac['FechaHoraCertificacion'] = data[1]['FechaHoraCertificacion'];
                     pdfData = jsonObj.GTDocumento.SAT.DTE
                     dataToSave = {
