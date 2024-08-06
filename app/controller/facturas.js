@@ -81,9 +81,10 @@ const getNit = async (nit, empresa) => {
 
     try {
         res = await axios.request(config)
-        console.log(res);
         return res.data
     } catch (error) {
+        console.log("ERROR GET NIT");
+        console.log(JSON.stringify(error));
         return error
     }
 
@@ -117,42 +118,49 @@ const createInvoice = async (order) => {
                 const jsonObj = parser.parse(facData.toString().replace(/dte:/g, "").replace(/@attributes/g, "attributes"));
 
                 if (order.accion == "new") {
-                    var DataFac = {}
-                    DataFac['UUID'] = data[1]['UUID'];
-                    DataFac['Serie'] = data[1]['Serie'];
-                    DataFac['Numero'] = data[1]['Numero'];
-                    DataFac['OrderId'] = order.id,
-                        console.log(DataFac);
-                    
+                    try {
+                        var DataFac = {}
+                        DataFac['UUID'] = data[1]['UUID'];
+                        DataFac['Serie'] = data[1]['Serie'];
+                        DataFac['Numero'] = data[1]['Numero'];
+                        DataFac['OrderId'] = order.id,
+                            console.log(JSON.stringify(jsonObj));
+
                         DataFac['FechaHoraCertificacion'] = data[1]['FechaHoraCertificacion'];
-                    pdfData = jsonObj.GTDocumento.SAT.DTE
-                    dataToSave = {
-                        "empresa": order.empresa,
-                        "NombreEmisor": pdfData.DatosEmision.Emisor.NombreEmisor,
-                        "NombreCertificador": pdfData.Certificacion.NombreCertificador,
-                        "NITCertificador": pdfData.Certificacion.NITCertificador,
-                        "DireccionEmisor": pdfData.DatosEmision.Emisor.DireccionEmisor,
-                        "NITEmisor": pdfData.DatosEmision.Emisor.NITEmisor,
-                        "Data": DataFac,
-                        "Receptor": pdfData.DatosEmision.Receptor,
-                        "FechaHoraEmision": pdfData.DatosEmision.DatosGenerales.FechaHoraEmision,
-                        "Direccion": pdfData.DatosEmision.Receptor.DireccionReceptor,
-                        "Items": pdfData.DatosEmision.Items,
-                        "GranTotal": pdfData.DatosEmision.Totales.GranTotal,
-                        "OrderId": order.id,
-                    };
-                    await getPDF(dataToSave)
+                        pdfData = jsonObj.GTDocumento.SAT.DTE
+                        dataToSave = {
+                            "empresa": order.empresa,
+                            "NombreEmisor": pdfData.DatosEmision.Emisor.NombreEmisor,
+                            "NombreCertificador": pdfData.Certificacion.NombreCertificador,
+                            "NITCertificador": pdfData.Certificacion.NITCertificador,
+                            "DireccionEmisor": pdfData.DatosEmision.Emisor.DireccionEmisor,
+                            "NITEmisor": pdfData.DatosEmision.Emisor.NITEmisor,
+                            "Data": DataFac,
+                            "Receptor": pdfData.DatosEmision.Receptor,
+                            "FechaHoraEmision": pdfData.DatosEmision.DatosGenerales.FechaHoraEmision,
+                            "Direccion": pdfData.DatosEmision.Receptor.DireccionReceptor,
+                            "Items": pdfData.DatosEmision.Items,
+                            "GranTotal": pdfData.DatosEmision.Totales.GranTotal,
+                            "OrderId": order.id,
+                        };
+                        await getPDF(dataToSave)
+                    } catch (error) {
+                        console.log("ERROR formatear para generar pdf");
+                        console.log(JSON.stringify(error));
+                    }
+                    
                 }
             } catch (error) {
-                console.log(error);
+                console.log("ERROR formatear respuesta");
+                console.log(JSON.stringify(error));
             }
         } else {
-            // console.log(data.error);
+            console.log("ERROR formatear peticion");
+            console.log(data.error);
         }
     } catch (error) {
-        console.log("################ ORDEN CON ERROR ###################");
-        console.log(error);
-        console.log("################ ////ORDEN CON ERROR ###################");
+        console.log("ERROR Crear Factura");
+        console.log(JSON.stringify(error));
     }
     return { data, error: error }
 }
@@ -181,6 +189,8 @@ const sendRequest = async (data, orderId, URL, empresa) => {
         return [data.data,
         res.data]
     } catch (error) {
+        console.log("ERROR EN REQUEST");
+        console.log(JSON.stringify(error));
         return error
     }
 }

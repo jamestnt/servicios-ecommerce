@@ -12,14 +12,6 @@ router.use((req, res, next) => {
         return;
     }
     next();
-
-    // const token = req.header('Authorization');
-    // const data = jwt_valid_token(token.split(" ")[1])
-    // if (data.success) {
-    //     next();
-    // } else {
-    //     return res.status(200).json(data);
-    // }
 })
 
 router.get('/', async (req, res) => {
@@ -32,7 +24,6 @@ router.get('/get_token', async (req, res) => {
         id: 1,
         user: "james"
     })
-    // console.log(user);
     return res.status(200).json(user);
 })
 

@@ -146,24 +146,20 @@ const sendRequest = async (request, empresa) => {
     
     await axios.request(config)
         .then((response) => {
-            console.log("RESPONSE0");
             resp= {
                 response: JSON.parse(Buffer.from(response.data.PayLoad, 'base64').toString('utf-8')),
                 error: false
             }
         })
         .catch((error) => {
-            console.log("RESPONSE1");
-            console.log(error.response);
+            console.log("ERROR Crear GUIA");
+            console.log(JSON.stringify(error));
             resp= {
                 response: error.response.data,
                 error: true
             }
 
         });
-    console.log("RESPONSE2");
-    console.log(resp.response);
-    console.log("############## RESPONSE2");
     return resp
 }
 
