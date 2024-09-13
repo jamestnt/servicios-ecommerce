@@ -1,9 +1,9 @@
 var tonsque = {
     "Method": "GetServiceByHeaderCodeRequest",
     "cred": {
-        "CODAPP":"SIMPORTCMWAPIECOM0103220241414",
+        "CODAPP":"SICREATIVOAPIECOM030920241540",
         "ENCKEY":"uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
-        "SKEY":"uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
+        "SKEY":"KcNpvV1sp7vSIbfsfDlLWOozMKDYdB3h",
         "ENDPOINT":"https://sandbox.apicore.forzadelivery.io:40467/ecommerce/",
         "ENDPOINTFAC":"https://testws.ccgfel.gt/Api/",
         "NIT":"120236982",
@@ -51,7 +51,7 @@ var tonsque = {
         "Ticket_Number": "4575154",
         "Order_Number": 4575154,
         "IdCountry": "GT",
-        "CodeOfReference": "528201",
+        "CodeOfReference": "825780",
         "CountPieces": 1,
         "TotalWeight": "1",
         "TotalValue": "100.00",
@@ -61,7 +61,7 @@ var tonsque = {
         "Collected": false,
         "COD": {
             "CashOnDelivery": false,
-            "CreditNumber": "528201",
+            "CreditNumber": "825780",
             "AmmountCashOnDelivery": 0,
             "CashOnDeliveryCurrency": "GTQ",
             "BankAccountName": "Creativos 123",

@@ -8,11 +8,8 @@ const puppeteer = require('puppeteer');
 const getToken = async (empresa) => {
     let firstEmpresa = Object.keys(empresas)[1]
     let empData = empresa ? empresas[empresa].cred : empresas[firstEmpresa].cred
-    let data = qs.stringify({
-        'username': empData.USERNAMEFAC,
-        'password': empData.PASSWORDFAC,
-        'grant_type': 'password'
-    });
+    let data = {"username": empData.USERNAMEFAC,"password": empData.PASSWORDFAC , "grant_type": "password"};
+    
 
     let config = {
         method: 'post',
@@ -25,6 +22,7 @@ const getToken = async (empresa) => {
     };
     try {
         const res = await axios.request(config)
+        // console.log(res.data.access_token);
         return {
             token: res.data.access_token,
             error: false
@@ -38,6 +36,7 @@ const getToken = async (empresa) => {
 }
 
 const getPDF = async (orderData) => {
+    console.log(orderData);
     const path = require('path');
     const fs = require('fs');
 
@@ -108,7 +107,9 @@ const createInvoice = async (order) => {
     try {
         if (!data.error) {
             try {
+                
                 data = await sendRequest(data, order.id, url, order.empresa);
+                console.log(data);
                 error = false
                 const parser = new XMLParser({
                     ignoreAttributes: false,
@@ -124,10 +125,12 @@ const createInvoice = async (order) => {
                         DataFac['Serie'] = data[1]['Serie'];
                         DataFac['Numero'] = data[1]['Numero'];
                         DataFac['OrderId'] = order.id,
-                            console.log(JSON.stringify(jsonObj));
+                            // console.log(JSON.stringify(jsonObj));
 
                         DataFac['FechaHoraCertificacion'] = data[1]['FechaHoraCertificacion'];
                         pdfData = jsonObj.GTDocumento.SAT.DTE
+                        
+                        
                         dataToSave = {
                             "empresa": order.empresa,
                             "NombreEmisor": pdfData.DatosEmision.Emisor.NombreEmisor,
@@ -138,7 +141,7 @@ const createInvoice = async (order) => {
                             "Data": DataFac,
                             "Receptor": pdfData.DatosEmision.Receptor,
                             "FechaHoraEmision": pdfData.DatosEmision.DatosGenerales.FechaHoraEmision,
-                            "Direccion": pdfData.DatosEmision.Receptor.DireccionReceptor,
+                            "Direccion": pdfData.DatosEmision.Receptor.DireccionReceptor.Direccion,
                             "Items": pdfData.DatosEmision.Items,
                             "GranTotal": pdfData.DatosEmision.Totales.GranTotal,
                             "OrderId": order.id,
@@ -152,7 +155,7 @@ const createInvoice = async (order) => {
                 }
             } catch (error) {
                 console.log("ERROR formatear respuesta");
-                console.log(JSON.stringify(error));
+                console.log((error));
             }
         } else {
             console.log("ERROR formatear peticion");
@@ -184,6 +187,8 @@ const sendRequest = async (data, orderId, URL, empresa) => {
         },
         data: JSON.stringify(content)
     };
+    console.log(config);
+    
     try {
         res = await axios.request(config)
         return [data.data,
