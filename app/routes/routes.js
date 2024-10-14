@@ -80,7 +80,7 @@ router.get('/get_status_label', async (req, res) => {
 
 router.get('/crear_guia', async (req, res) => {
     
-    const data = req.body
+    const data = req.body    
     const response = await createLabel(data);
     res.status(response.error ? 500 : 200)
     res.json(response)

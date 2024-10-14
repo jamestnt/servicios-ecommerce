@@ -153,7 +153,7 @@ const sendRequest = async (request, empresa) => {
         })
         .catch((error) => {
             console.log("ERROR Crear GUIA");
-            console.log(JSON.stringify(error));
+            console.log(JSON.stringify(error.response.data));
             resp= {
                 response: error.response.data,
                 error: true

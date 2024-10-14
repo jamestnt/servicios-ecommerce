@@ -2,10 +2,10 @@ var tonsque = {
     "Method": "GetServiceByHeaderCodeRequest",
     "cred": {
         "CODAPP":"SICREATIVOAPIECOM030920241540",
-        "ENCKEY":"uF66eqh7gysgIstqRWkkIlwU2o3hMvIi",
+        "ENCKEY":"KcNpvV1sp7vSIbfsfDlLWOozMKDYdB3h",
         "SKEY":"KcNpvV1sp7vSIbfsfDlLWOozMKDYdB3h",
-        "ENDPOINT":"https://sandbox.apicore.forzadelivery.io:40467/ecommerce/",
-        "ENDPOINTFAC":"https://testws.ccgfel.gt/Api/",
+        "ENDPOINT": "https://apicore.forzadelivery.io/ecommerce/",
+        "ENDPOINTFAC": "https://ws.ccgfel.gt/Api/",
         "NIT":"120236982",
         "USERNAMEFAC":"120236982",
         "PASSWORDFAC":"Creativos123#",
@@ -67,10 +67,10 @@ var tonsque = {
             "BankAccountName": "Creativos 123",
             "BankId": 33,
             "BankAccountType": "Monetaria",
-            "BankAccountId": "030-0110350",
-            "Identification": "2662916511501"
+            "BankAccountId": "0300121266",
+            "Identification": "2074170320101"
         },
-        "BillAccountNumber": "119244225",
+        "BillAccountNumber": "120236982",
         "PaymentMethod": "Qpay",
         "Note": ""
     }

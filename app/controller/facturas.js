@@ -109,6 +109,7 @@ const createInvoice = async (order) => {
             try {
                 
                 data = await sendRequest(data, order.id, url, order.empresa);
+                console.log("################################### DATA ################################### ");
                 console.log(data);
                 error = false
                 const parser = new XMLParser({
